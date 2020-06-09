@@ -1,5 +1,4 @@
 from flask import Blueprint
-import os
 
 
 articles_bp = Blueprint('articles_bp', __name__)
