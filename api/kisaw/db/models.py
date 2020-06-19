@@ -7,8 +7,8 @@ class BaseModel(db.Model):
     __abstract__ = True
 
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow,
+    created_at = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, nullable=True, default=datetime.utcnow,
                            onupdate=datetime.utcnow)
 
 
@@ -21,7 +21,7 @@ class User(BaseModel):
     photo = db.Column(db.String, nullable=True)
 
     @validates('password')
-    def hash_password(self, password):
+    def hash_password(self, key, password):
         return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     def __repr__(self):
