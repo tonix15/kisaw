@@ -1,17 +1,18 @@
-import json
-
-from pprint import pprint
-
 from flask import Blueprint, request, make_response
+
+from .auth import token_required
 
 from ..db import db
 from ..db.models import User
 from ..db.schemas import UserSchema
 
+from ..settings import JWT_SECRET
+
 users_bp = Blueprint('users_bp', __name__)
 
 
 @users_bp.route('/users', methods=('GET',))
+@token_required
 def index():
     users = User.query.all()
 
@@ -24,8 +25,9 @@ def index():
     return make_response({'users': serialized_result}), 200
 
 
-@users_bp.route('/user/<id>', methods=('GET', 'POST', 'PUT', 'DELETE'))
-def get_user(id):
+@users_bp.route('/user/<int:id>', methods=('GET', 'POST', 'PUT', 'DELETE'))
+@token_required
+def user(id):
     user = User.query.get(id)
     if not user:
         return make_response({'msg': 'User not found.'}), 400
@@ -61,14 +63,3 @@ def get_user(id):
         db.session.delete(user)
         db.session.commit()
         return make_response({'msg': '{} deleted.'.format(user.username)}), 202
-
-
-@users_bp.route('/register', methods=('POST',))
-def register():
-    request_data = request.get_json()
-    
-    user = User(email=request_data['email'], username=request_data['username'], password=request_data['password'])
-    db.session.add(user)
-    db.session.commit()
-
-    return {'msg': '{} added.'.format(user.username)}, 201
