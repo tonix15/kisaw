@@ -6,6 +6,7 @@ from flask import Flask
 from .db import db, migrate
 from .db.models import User
 
+from .blueprints.auth import auth_bp
 from .blueprints.articles import articles_bp
 from .blueprints.users import users_bp
 
@@ -21,6 +22,7 @@ def create_app(config=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    app.register_blueprint(auth_bp, url_prefix='/api/v1')
     app.register_blueprint(articles_bp, url_prefix='/api/v1')
     app.register_blueprint(users_bp, url_prefix='/api/v1')
 
