@@ -9,3 +9,10 @@ class UserSchema(Schema):
     photo = fields.Str()
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
+
+class ArticleSchema(Schema):
+    title = fields.Str()
+    body = fields.Str()
+    author_id = fields.Int()
+    created_at = fields.DateTime()
+    updated_at = fields.DateTime()
