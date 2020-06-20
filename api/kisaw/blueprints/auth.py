@@ -20,7 +20,7 @@ def token_required(f):
         auth_header = request.headers.get('Authorization')
 
         if not auth_header:
-            return make_response({'msg': 'Token is required.'}), 403
+            return make_response({'msg': 'Token is required.'}), 401
 
         # Split into Bearer and token
         split = auth_header.split(' ')
@@ -29,7 +29,7 @@ def token_required(f):
         try:
             data = jwt.decode(token, JWT_SECRET)
         except:
-            return make_response({'msg': 'Token is invalid.'}), 403
+            return make_response({'msg': 'Token is invalid.'}), 401
         return f(*args, **kwargs)
     
     return verify_token
