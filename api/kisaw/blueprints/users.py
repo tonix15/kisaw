@@ -19,7 +19,7 @@ def index():
     if not users:
         return make_response({'msg': 'No users yet.'}), 204
     
-    user_schema = UserSchema(many=True, exclude=('password',))
+    user_schema = UserSchema(many=True, exclude=('password', 'role_id'))
     serialized_result = user_schema.dump(users)
     
     return make_response({'users': serialized_result}), 200
