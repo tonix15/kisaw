@@ -39,7 +39,11 @@ def token_required(f):
 def register():
     request_data = request.get_json()
     
-    user = User(email=request_data['email'], username=request_data['username'], password=request_data['password'])
+    user = User(
+        email=request_data['email'], username=request_data['username'],
+        password=request_data['password'], role_id=request_data['role_id']
+    )
+    
     db.session.add(user)
     db.session.commit()
 
@@ -49,7 +53,7 @@ def register():
 @auth_bp.route('/auth/login', methods=('POST',))
 def login():
     request_data = request.get_json()
-
+    
     # Require username and password
     if 'username' not in request_data or 'password' not in request_data:
         return make_response({'msg': 'Username and Password required.'}), 400
@@ -59,13 +63,20 @@ def login():
     # Make sure user exists
     if not user:
         return make_response({'msg': 'User not found.'}), 401
+    
+    hex_passwd = user.password[2:] # Remove the leading \x
+    byte_passwd = bytes.fromhex(hex_passwd) # Convert hex to bytes
 
     # Authenticate user
-    if bcrypt.checkpw(request_data['password'].encode('utf-8'), user.password):
+    if bcrypt.checkpw(request_data['password'].encode('utf-8'), byte_passwd):
         token_expiration = datetime.datetime.utcnow() + datetime.timedelta(days=1)
         
         # Generate JWT Token
-        payload = {'id': user.id, 'username': user.username, 'email': user.email, 'exp': token_expiration}
+        payload = {
+            'id': user.id, 'username': user.username,
+            'email': user.email, 'role_id': user.role_id, 'exp': token_expiration
+        }
+        
         token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
 
         return make_response({
