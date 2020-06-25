@@ -33,7 +33,11 @@ def new_role():
     if 'name' not in request_data:
         return make_response({'msg': 'Role name Required'}), 400
 
-    role = Role(name=request_data['name'])
+    description = None
+    if 'description' in request_data:
+        description = request_data['description']
+    
+    role = Role(name=request_data['name'], description=description)
     db.session.add(role)
     db.session.commit()
     
