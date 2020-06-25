@@ -26,3 +26,10 @@ class ArticleSchema(Schema):
     author_id = fields.Int()
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
+
+class CategorySchema(Schema):
+    id = fields.Int()
+    title = fields.Str()
+    description = fields.Str()
+    created_at = fields.DateTime()
+    updated_at = fields.DateTime()
