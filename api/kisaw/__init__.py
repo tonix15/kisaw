@@ -3,7 +3,7 @@ import click
 
 from flask import Flask
 
-from .db import db, migrate
+from .db import db, ma, migrate
 from .db.models import User
 
 from .blueprints.auth import auth_bp
@@ -22,6 +22,7 @@ def create_app(config=None):
         app.config.from_pyfile(config)
 
     db.init_app(app)
+    ma.init_app(app)
     migrate.init_app(app, db)
 
     app.register_blueprint(auth_bp, url_prefix='/api/v1')
