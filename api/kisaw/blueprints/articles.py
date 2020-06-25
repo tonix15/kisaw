@@ -27,8 +27,8 @@ def index():
 def new_article():
     request_data = request.get_json()
 
-    if 'title' not in request_data or 'body' not in request_data:
-        return make_response({'msg': 'Title and Article Content Required'}), 400
+    if 'title' not in request_data or 'body' not in request_data or 'author_id' not in request_data:
+        return make_response({'msg': 'Title, Article Content and Author Required'}), 400
 
     article = Article(title=request_data['title'], body=request_data['body'], author_id=request_data['author_id'])
     db.session.add(article)
