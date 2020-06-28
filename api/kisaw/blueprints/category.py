@@ -1,10 +1,10 @@
 from flask import Blueprint, make_response, request
 
-from .auth import token_required
+from kisaw.blueprints.auth import token_required
 
-from ..db import db
-from ..db.models import Category
-from ..db.schemas import CategorySchema
+from kisaw.db import db
+from kisaw.db.models import Category
+from kisaw.db.schemas import CategorySchema
 
 category_bp = Blueprint('category_bp', __name__)
 

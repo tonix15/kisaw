@@ -1,7 +1,9 @@
 import bcrypt
+
 from datetime import datetime
 from sqlalchemy.orm import validates
-from . import db
+
+from kisaw.db import db
 
 class BaseModel(db.Model):
     __abstract__ = True

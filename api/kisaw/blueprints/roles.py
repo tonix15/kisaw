@@ -1,13 +1,12 @@
 from flask import Blueprint, request, make_response
 
+from kisaw.blueprints.auth import token_required
 
-from .auth import token_required
+from kisaw.db import db
+from kisaw.db.models import Role
+from kisaw.db.schemas import RoleSchema
 
-from ..db import db
-from ..db.models import Role
-from ..db.schemas import RoleSchema
-
-from ..settings import JWT_SECRET
+from kisaw.settings import JWT_SECRET
 
 roles_bp = Blueprint('roles_bp', '__name__')
 

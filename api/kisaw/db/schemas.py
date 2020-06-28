@@ -1,6 +1,6 @@
-from . import ma
+from kisaw.db import ma
 
-from .models import Article, Category, Comment, Role, User
+from kisaw.db.models import Article, Category, Comment, Role, User
 
 class RoleSchema(ma.SQLAlchemySchema):
     class Meta:

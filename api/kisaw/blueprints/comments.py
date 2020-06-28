@@ -1,10 +1,10 @@
 from flask import Blueprint, make_response, request
 
-from .auth import token_required
+from kisaw.blueprints.auth import token_required
 
-from ..db import db
-from ..db.models import Comment
-from ..db.schemas import CommentSchema
+from kisaw.db import db
+from kisaw.db.models import Comment
+from kisaw.db.schemas import CommentSchema
 
 comments_bp = Blueprint('comments_bp', __name__)
 

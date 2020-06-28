@@ -6,10 +6,10 @@ from flask import Blueprint, make_response, request
 
 from functools import wraps
 
-from ..db import db
-from ..db.models import User
+from kisaw.db import db
+from kisaw.db.models import User
 
-from ..settings import JWT_SECRET
+from kisaw.settings import JWT_SECRET
 
 
 auth_bp = Blueprint('auth_bp', __name__)
@@ -52,6 +52,7 @@ def register():
 
 @auth_bp.route('/auth/login', methods=('POST',))
 def login():
+
     request_data = request.get_json()
     
     # Require username and password
