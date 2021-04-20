@@ -1,4 +1,4 @@
--i https://pypi.org/simple
+-i https://pypi.org/simple/
 alembic==1.4.2
 amqp==2.6.0
 bcrypt==3.1.7
